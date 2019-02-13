@@ -93,8 +93,23 @@ getSmilesInchi <- function(
     }
   }
   
+  if(!is.null(ramclustObj$inchi) & !is.null(ramclustObj$smiles)) {
+    get.inchi <- which(!is.na(ramclustObj$smiles) & is.na(ramclustObj$inchi))
+    if(length(get.inchi) > 0) {
+      for(i in get.inchi) {
+        tmp <- unlist(webchem::cs_convert(ramclustObj$smiles[i], from = "smiles", to = "inchi", verbose = FALSE))
+        if(length(tmp) == 1) {
+          if(grepl("InChI=", tmp)) {
+            ramclustObj$inchi[i] <- tmp
+          }
+        }
+        rm(tmp)
+      }
+    }
+  }
+  
   ramclustObj$history <- paste(ramclustObj$history, 
-                               "Smiles and InCHi structures were retreived for each inchikey without a structure using the Pubchem API (Djoumbou 2016) called from RAMClustR using the getSmilesInchi function.")
+                               "Smiles structures were retreived for each inchikey without a structure using the Pubchem API (Djoumbou 2016) called from RAMClustR using the getSmilesInchi function.")
   
   
   return(ramclustObj)

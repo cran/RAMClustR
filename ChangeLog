@@ -1,3 +1,17 @@
+2019-02-12 Corey Broeckling v1.0.3
+  * fixed bug in batch.qc correction for MSe data
+
+2019-01-30 Corey Broeckling v1.0.3
+  * added write.methods function to export processing history
+
+2019-01-30 Corey Broeckling v1.0.2
+  * changed behavior of msfinder import and annotation. Structure results from a relevent database can be used to set the formula, rather than formula being independently assigned.  
+  * added rt.only.low.n option to control behavior of clustering with low n (< 5) 
+
+2019-01-18 Corey Broeckling v1.0.1
+  * fixed bug in ramclustR function when fewer than five samples. 
+  * added function to convert foodb download to MSFinder structure database import format. 
+
 2019-01-17 Corey Broeckling
   * update R, CRAN check, 1.0.0
 
