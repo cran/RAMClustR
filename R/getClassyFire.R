@@ -10,7 +10,15 @@
 #' @return returns a ramclustR object.  new dataframe in $classyfire slot with rows equal to number of compounds.  
 #' @importFrom jsonlite fromJSON
 #' @importFrom RCurl url.exists
-#' @keywords 'ramclustR' 'RAMClustR', 'ramclustR', 'metabolomics', 'classyFire'
+#' @concept ramclustR
+#' @concept RAMClustR
+#' @concept metabolomics
+#' @concept mass spectrometry
+#' @concept clustering
+#' @concept feature
+#' @concept MSFinder
+#' @concept xcms
+#' @concept classyFire
 #' @author Corey Broeckling
 #' @references Djoumbou Feunang Y, Eisner R, Knox C, Chepelev L, Hastings J, Owen G, Fahy E, Steinbeck C, Subramanian S, Bolton E, Greiner R, and Wishart DS. ClassyFire: Automated Chemical Classification With A Comprehensive, Computable Taxonomy. Journal of Cheminformatics, 2016, 8:61. DOI: 10.1186/s13321-016-0174-y
 
@@ -44,7 +52,7 @@ getClassyFire <- function (ramclustObj = NULL, get.all = TRUE, max.wait = 10, po
       next
     }
     out <- tryCatch(jsonlite::fromJSON(paste0(url, "/entities/", ramclustObj$inchikey[i], 
-                                    ".json")), error = function(x) {
+                                    ".json")), error = function(y) {
                                       return(NA)
                                     })
     if (length(out) > 1) {
@@ -85,6 +93,7 @@ getClassyFire <- function (ramclustObj = NULL, get.all = TRUE, max.wait = 10, po
         submit <- httr::POST("http://classyfire.wishartlab.com/queries", 
                              body = params, encode = "json", httr::accept_json(), 
                              httr::add_headers(`Content-Type` = "application/json"))
+        Sys.sleep(1)
         query_id <- jsonlite::fromJSON(httr::content(submit, 
                                                      "text"))
         
@@ -122,15 +131,17 @@ getClassyFire <- function (ramclustObj = NULL, get.all = TRUE, max.wait = 10, po
             cat(" not done", '\n')
             break
           }
-          out <- tryCatch( {out <- jsonlite::fromJSON(paste0("http://classyfire.wishartlab.com/queries/", 
-                                            query = query_id$id, ".json"))}, 
-                           error = function() {
-                             out <- list()
-                             out$classification_status <- "not done"
-                             out$number_of_elements <- 0
-                             out
-                           }
-                           )
+          out <- tryCatch( 
+            {
+            out <- jsonlite::fromJSON(paste0("http://classyfire.wishartlab.com/queries/", query = query_id$id, ".json"))
+            }, 
+            error = function(y) {
+              out <- list()
+              out$classification_status <- "not done"
+              out$number_of_elements <- 0
+              out
+              }
+            )
           
           if (round(as.numeric(difftime(Sys.time(), 
                                         time.a, units = "secs")), 3) >= max.wait) {
@@ -180,7 +191,7 @@ getClassyFire <- function (ramclustObj = NULL, get.all = TRUE, max.wait = 10, po
   }
   
   ramclustObj$history <- paste(ramclustObj$history, 
-                               "Compounds were assigned to chemical ontegenies using the ClassyFire API (Djoumbou 2016)")
+                               "Compounds were assigned to chemical ontogenies using the ClassyFire API (Djoumbou 2016).")
   
   
   return(ramclustObj)

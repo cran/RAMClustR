@@ -7,7 +7,13 @@
 #' @return an annotated ramclustR object
 #' @references Broeckling CD, Afsar FA, Neumann S, Ben-Hur A, Prenni JE. RAMClust: a novel feature clustering method enables spectral-matching-based annotation for metabolomics data. Anal Chem. 2014 Jul 15;86(14):6812-7. doi: 10.1021/ac501530d.  Epub 2014 Jun 26. PubMed PMID: 24927477.
 #' @return nothing - new file written to working director
-#' @keywords 'ramclustR' 'RAMClustR', 'metabolomics', 'mass spectrometry'
+#' @concept ramclustR
+#' @concept RAMClustR
+#' @concept metabolomics
+#' @concept mass spectrometry
+#' @concept clustering
+#' @concept feature
+#' @concept xcms
 #' @author Corey Broeckling
 #' @export
 
@@ -24,6 +30,15 @@ write.methods <- function (ramclustObj = NULL,
   }
   
   cit.list <- c(
+    'R' = paste0(
+      citation()$author, 
+      " (", citation()$year, "). ",
+      citation()$title, ". ",
+      citation()$organization, ", ", 
+      citation()$address, ", ",
+      citation()$url, "."
+    ),
+    
     '(Broeckling 2012)' = "Broeckling CD, Heuberger A, Prince JA, Ingelsson E, Prenni JE. Assigning precursor-product ion relationships in indiscriminant MS/MS data from non-targeted metabolite profiling studies. Metabolomics 2012. 9(1):33-43.",
     
     '(Broeckling 2014)' = "Broeckling CD, Afsar FA, Neumann S, Ben-Hur A, Prenni JE. RAMClust: a novel feature clustering method enables spectral-matching-based annotation for metabolomics data. Anal Chem. 2014. 86(14):6812-7.",
@@ -49,7 +64,12 @@ write.methods <- function (ramclustObj = NULL,
     '(Tautenhahn 2008)' = "Ralf Tautenhahn, Christoph Boettcher, Steffen Neumann: Highly sensitive feature detection for high resolution LC/MS BMC Bioinformatics, 9:504 (2008)"
     
   )
+
+  names(cit.list)[which(names(cit.list) == "R")] <- paste0(
+    citation()$author, 
+    " (", citation()$year, ")")
   
+  # paste0("(", citation()$author, " ",  citation()$year, ")") = paste0(citation()$author)
   sink(filename)
   
   cat(ramclustObj$history)
@@ -67,7 +87,17 @@ write.methods <- function (ramclustObj = NULL,
       cat(names(cit.list[i]), ":  ", cit.list[i], '\n', '\n', sep = "")
     }
   }
-
+  
+  if(grepl("R Core Team", ramclustObj$history)) {
+    cat(paste0(
+      citation()$author, 
+      " (", citation()$year, "). ",
+      citation()$title, ". ",
+      citation()$organization, ", ", 
+      citation()$address, ", ",
+      citation()$url, "."
+    ))
+  }
   sink()
 
 }

@@ -10,7 +10,16 @@
 #' @references Broeckling CD, Afsar FA, Neumann S, Ben-Hur A, Prenni JE. RAMClust: a novel feature clustering method enables spectral-matching-based annotation for metabolomics data. Anal Chem. 2014 Jul 15;86(14):6812-7. doi: 10.1021/ac501530d.  Epub 2014 Jun 26. PubMed PMID: 24927477.
 #' @references http://cts.fiehnlab.ucdavis.edu/static/download/CTS2-MS2015.pdf 
 #' @importFrom jsonlite fromJSON
-#' @keywords 'ramclustR' 'RAMClustR', 'ramclustR', 'metabolomics', 'mass spectrometry', 'clustering', 'feature', 'xcms', 'MSFinder', 'chemical translation service', 'cts'
+#' @concept ramclustR
+#' @concept RAMClustR
+#' @concept metabolomics
+#' @concept mass spectrometry
+#' @concept clustering
+#' @concept feature
+#' @concept MSFinder
+#' @concept xcms
+#' @concept chemical translation service
+#' @concept cts
 #' @author Corey Broeckling
 #' @export 
 
@@ -219,7 +228,7 @@ get.synonyms <- function(ramclustObj = NULL,
   }
   
   ramclustObj$history <- paste(ramclustObj$history, 
-                               "Synonyms were retreived using the RAMClustR get.synonyms function within RAMClustR, calling the Chemical Translation Service (Wohlgemuth 2010) as well as database API for Pubchem (Kim 2019), LipidMaps (Fahy 2007), and HMDB (Wishart 2018), when appropriate.")
+                               "Synonyms were retrieved using the RAMClustR get.synonyms function within RAMClustR, calling the Chemical Translation Service (Wohlgemuth 2010) as well as database API for Pubchem (Kim 2019), LipidMaps (Fahy 2007), and HMDB (Wishart 2018), when appropriate.")
   ramclustObj$synonyms <- synonyms
   return(ramclustObj)
 }
