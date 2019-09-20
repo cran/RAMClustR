@@ -1,6 +1,6 @@
-839ca2601407c5f0a63a032c126e64ea *ChangeLog
-9faaff043091967f591a0abc66eb7332 *DESCRIPTION
-998619dc6126a086d5ff296d2bcb8060 *NAMESPACE
+6a425640539f96d72147ef83878277f2 *ChangeLog
+880befb9e2b93fa1c31f75be59f14a62 *DESCRIPTION
+12f1513c2d60ebb4e7c26194d149a731 *NAMESPACE
 691604469ef7681310e9c612007fea88 *R/RCQC.R
 f300ede82974d239e36d6d6b3370cc72 *R/annotate.R
 38497339e1730f7a0b5d4fc1ad41652a *R/annotation.summary.R
@@ -13,7 +13,7 @@ a826a2edd86192bc00651c712f532cc8 *R/export.msfinder.formulas.R
 72e11641768524dcc9e60ad2b77fce4e *R/findmass.R
 0a69011615e2091cb23d84598989e545 *R/fooddb2msfinder.R
 cc7fc68b081567650b40b942012d88b4 *R/get.synonyms.R
-494e3faeccdc289027ee91cddf8248be *R/getClassyFire.R
+02a4766661fd11f193c42f752316a355 *R/getClassyFire.R
 069b532136ced27e3b5e6bc0fe312472 *R/getSmilesInchi.R
 5141bcaf64abd991512e4307e4147ed5 *R/impRamSearch.R
 1fd8f0c2f0cc8ee7f109b94a8110c529 *R/import.msfinder.formulas.R
@@ -21,14 +21,14 @@ cc7fc68b081567650b40b942012d88b4 *R/get.synonyms.R
 1e458a4da5bc62bc53e8eb64e5170fc8 *R/import.msfinder.structures.R
 8ddce3ceaf30f56b8eb0a23a91448a3c *R/manual.annotation.template.R
 5505e07c5581d069c41fe1445bde7907 *R/mergeRCobjects.R
-0f67fe3382d7c058cc8839027c6f35eb *R/ramclustR.R
+8c2d4d617f69e78f0b6a9b41d5f247d9 *R/ramclustR.R
 cfaf03117979bc7d8bab444746a70ed3 *R/write.methods.R
 aec92b0eda641a16cc99b1537c969d51 *README.md
 d202e632b00d394ae1dc2b315783a3eb *build/vignette.rds
 b7fb938d374a18f41f4ec9ed96373308 *inst/CITATION
 97678d48ed128ed68b4e8421f5a9e7d7 *inst/doc/RAMClustR.R
 672f5a79f18a473f3df2a9ac859ed4b2 *inst/doc/RAMClustR.Rmd
-5585da8728d14ae7cb6916adea5b6d31 *inst/doc/RAMClustR.html
+5ec1baf81c07818baf101f2e8e6f4b78 *inst/doc/RAMClustR.html
 9441bca4e0a92411f6dddf0feba4cb2b *inst/params/defparamsets.Rdata
 84705109d1d77647178f02aa9ce38716 *inst/params/params.csv
 7ecf372a3097898d11267a51da88ca22 *inst/params/paramsets.Rdata
