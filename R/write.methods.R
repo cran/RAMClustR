@@ -17,9 +17,14 @@
 #' @author Corey Broeckling
 #' @export
 
-write.methods <- function (ramclustObj = NULL,
+write.methods <- function (
+  ramclustObj = NULL,
   filename = NULL
 ) {
+  
+  if(is.null(ramclustObj)) {
+    stop("must supply ramclustObj as input.  i.e. ramclustObj = RC1", '\n')
+  }
   
   if(!any(names(ramclustObj) == "history")) {
     stop("no processing history present for this ramclustR object")
@@ -30,7 +35,7 @@ write.methods <- function (ramclustObj = NULL,
   }
   
   cit.list <- c(
-    'R' = paste0(
+    'R Core Team' = paste0(
       citation()$author, 
       " (", citation()$year, "). ",
       citation()$title, ". ",
@@ -72,10 +77,11 @@ write.methods <- function (ramclustObj = NULL,
   # paste0("(", citation()$author, " ",  citation()$year, ")") = paste0(citation()$author)
   sink(filename)
   
-  cat(ramclustObj$history)
+  history <- paste(ramclustObj$history, collapse = " " )
+  cat(history)
   
   cites <- sapply(1:length(cit.list), FUN = function(x) {
-    grepl(names(cit.list[x]), ramclustObj$history)
+    grepl(names(cit.list[x]), history)
   }
   )
   
@@ -88,7 +94,7 @@ write.methods <- function (ramclustObj = NULL,
     }
   }
   
-  if(grepl("R Core Team", ramclustObj$history)) {
+  if(grepl("R Core Team", history)) {
     cat(paste0(
       citation()$author, 
       " (", citation()$year, "). ",

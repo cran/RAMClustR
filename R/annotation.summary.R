@@ -20,6 +20,10 @@ annotation.summary<-function(ramclustObj = NULL,
                              outfile = NULL
 ) {
   
+  if(is.null(ramclustObj)) {
+    stop("must supply ramclustObj as input.  i.e. ramclustObj = RC", '\n')
+  }
+  
   if(!is.null(outfile)) {
     f<-basename(outfile)
     p<-dirname(outfile)
@@ -28,6 +32,7 @@ annotation.summary<-function(ramclustObj = NULL,
     }
   } else {
     outfile <- paste0(getwd(), "/spectra/annotationSummary.csv")
+    if(!dir.exists('spectra')) {dir.create('spectra')}
   }
   
   out<- data.frame("cmpd" = ramclustObj$cmpd,
@@ -36,6 +41,13 @@ annotation.summary<-function(ramclustObj = NULL,
                    "ann.confidence" = ramclustObj$annconf,
                    "median signal" = as.vector(apply(ramclustObj$SpecAbund, 2, "median"))) 
   
+  if(any(names(ramclustObj) == "cmpd.use")) {
+    out<- data.frame(out, "qc.cv.acceptable" = ramclustObj$cmpd.use)
+  }
+  if(any(names(ramclustObj) == "qc.cv.cmpd.full")) {
+    out<- data.frame(out, "qc.cv" = ramclustObj$qc.cv.cmpd.full)
+  }
+  
   if(any(names(ramclustObj) == "M")) {
     out<- data.frame(out, "inferred M" = ramclustObj$M)
   }
@@ -43,7 +55,7 @@ annotation.summary<-function(ramclustObj = NULL,
     out<- data.frame(out, "zmax" = ramclustObj$zmax)
   }
   if(any(names(ramclustObj) == "msfinder.formula")) {
-    out<- data.frame(out, "inferred formula" = ramclustObj$msfinder.formula)
+    out<- data.frame(out, "MSFinder inferred formula" = ramclustObj$msfinder.formula)
   }
   if(any(names(ramclustObj) == "inchikey")) {
     out<- data.frame(out, "inchikey" = ramclustObj$inchikey)
@@ -75,5 +87,21 @@ annotation.summary<-function(ramclustObj = NULL,
   }
   
   write.csv(out, file = outfile, row.names = FALSE)
+  
+  # ## library(xlsx)
+  # out.wb <- createWorkbook()
+  # sheet <- createSheet(out.wb, sheetName = "annotation summary")
+  # addDataFrame(out, sheet)
+  # rows   <- createRow(sheet, 1)
+  # cells <- createCell(rows, 1:ncol(out))
+  # 
+  # url.cols <- grep("url", names(out))
+  # for(i in 1:nrow(out)) {
+  #   for(j in url.cols) {
+  #     if(is.na(out[i, j])) {next}
+  #   }
+  #   addHyperlink(cell = cells[[i,j]], address = as.character(out[i,j]))
+  # }
+  # saveWorkbook(out.wb, file = "ann.summ.xlsx")
 }
 

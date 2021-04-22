@@ -26,6 +26,10 @@ import.msfinder.mssearch <- function (
   msp.dir = NULL
 ) {
   
+  if(is.null(ramclustObj)) {
+    stop("must supply ramclustObj as input.  i.e. ramclustObj = RC", '\n')
+  }
+  
   home.dir <-getwd()
   
   if(is.null(mat.dir)) {
@@ -68,6 +72,30 @@ import.msfinder.mssearch <- function (
   mat.dir <- c(mat.dir, msp.dir)[c(usemat, usemsp)]
   
   do<-list.dirs(mat.dir, recursive = FALSE, full.names = FALSE) 
+  
+  ### retrieve parameter file from mat directory and parse to save with results.
+  params <- list.files(mat.dir, pattern = "batchparam", full.names = TRUE)
+  if(length(params) > 0) {
+    mtime <- rep(NA, length(params))
+    for(i in 1:length(mtime)) {
+      mtime[i] <- format(file.info(params[i])$mtime, format = '%y%m%d%H%M%S')
+    }
+    params <- params[which.max(mtime)]
+    params <- readLines(params)
+    breaks <- which(nchar(params)==0)
+    
+    ## spectral search parameters
+    st <- grep ("Spectral database search", params)+1
+    end <- breaks[which(breaks > st)[1]]-1
+    if(end <= st) {stop('parsing of parameter file has failed')}
+    tmp <- strsplit(params[st:end], "=")
+    nms <- sapply(1:length(tmp), FUN = function(x) {tmp[[x]][1]})
+    vals <- sapply(1:length(tmp), FUN = function(x) {tmp[[x]][2]})
+    names(vals) <- nms
+    ramclustObj$msfinder.mssearch.parameters <- vals
+    
+  } 
+  
   
   ncmpd <- max(as.integer(gsub("C", "", do)))
   
@@ -179,13 +207,14 @@ import.msfinder.mssearch <- function (
     }
   }
   
-
+  
   ramclustObj$msfinder.mssearch.details<-msfinder.mssearch.details
   setwd(home.dir)
-
-  if(!grepl("MSFinder (Tsugawa 2016) results were imported into the RAMClustR object", ramclustObj$history, fixed = TRUE)) {
-    ramclustObj$history <- paste(ramclustObj$history, " MSFinder (Tsugawa 2016) results were imported into the RAMClustR object.")
-  }
+  
+  ramclustObj$history$msfinder <- paste(
+    "MSFinder (Tsugawa 2016) was used for spectral matching,",
+    "formula inference, and tentative structure assignment,",
+    "and results were imported into the RAMClustR object.")
   
   return(ramclustObj)
   

@@ -4,13 +4,17 @@
 \alias{getSmilesInchi}
 \title{getSmilesInchi}
 \usage{
-getSmilesInchi(ramclustObj = NULL)
+getSmilesInchi(ramclustObj = NULL, inchikey = NULL, ignore.stereo = TRUE)
 }
 \arguments{
-\item{ramclustObj}{ramclustR object to ClassyFy}
+\item{ramclustObj}{ramclustR object to look up smiles and inchi for each inchikey (without a smiles/inchi). Must provide one of ramclustObj or inchikey.}
+
+\item{inchikey}{character vector of inchikey strings.  Must provide one of ramclustObj or inchikey.}
+
+\item{ignore.stereo}{logical.  default = TRUE. If the Pubchem databases does not have the full inchikey string, should we search by the first (non-stereo) block of the inchikey?  When true, returns the first pubchem match to the inchikey block one string.  If the full inchikey is present, that is used preferentially.}
 }
 \value{
-returns a ramclustR object.  new dataframe in $classyfire slot with rows equal to number of compounds.
+returns a ramclustR object.  new vector of $smiles and $inchi with length equal to number of compounds.
 }
 \description{
 use PubChem API to look up full smiles and inchi notation for each inchikey

@@ -1,7 +1,7 @@
-## ----setup, include=FALSE------------------------------------------------
+## ----setup, include=FALSE-----------------------------------------------------
 knitr::opts_chunk$set(echo = TRUE)
 
-## ----xcms faaKO, eval=FALSE, include=TRUE--------------------------------
+## ----xcms faaKO, eval=FALSE, include=TRUE-------------------------------------
 #  library(BiocManager)
 #  library(xcms)
 #  install.packages("faahKO")
@@ -20,23 +20,23 @@ knitr::opts_chunk$set(echo = TRUE)
 #  xset <- group(xset, bw = 10)  # regroup following rt correction
 #  xset <- fillPeaks(xset)  # 'fillPeaks' to remove missing values in final dataset
 
-## ----view xcms object summary, eval=FALSE, include=TRUE------------------
+## ----view xcms object summary, eval=FALSE, include=TRUE-----------------------
 #  xset
 
-## ----ramclustR installation, eval=FALSE, include=TRUE--------------------
+## ----ramclustR installation, eval=FALSE, include=TRUE-------------------------
 #  install.packages("devtools", repos="http://cran.us.r-project.org", dependencies=TRUE)
 #  library(devtools)
 #  install_github("cbroeckl/RAMClustR", build_vignettes = TRUE, dependencies = TRUE)
 #  library(RAMClustR)
 
-## ----ramclustR of xcms processed faaKO, eval=FALSE, include=TRUE---------
+## ----ramclustR of xcms processed faaKO, eval=FALSE, include=TRUE--------------
 #  experiment <- defineExperiment(csv = TRUE) # experiment <- defineExperiment(force.skip = TRUE)
 #  RC <- ramclustR(xcmsObj = xset, ExpDes=experiment)
 
-## ----export csv, eval=FALSE, include=TRUE--------------------------------
+## ----export csv, eval=FALSE, include=TRUE-------------------------------------
 #  write.csv(RC$SpecAbund, file="SpecAbund.csv", row.names=TRUE)
 
-## ----csv input, eval=FALSE, include=TRUE---------------------------------
+## ----csv input, eval=FALSE, include=TRUE--------------------------------------
 #  # make csv files - outcsv1 for real MS data, outcsv2 for 'fake' idMSMS data after adding some noise.
 #  outcsv1<-RC$MSdata
 #  outcsv2<-abs(jitter(outcsv1, factor = 0.1))
@@ -63,6 +63,6 @@ knitr::opts_chunk$set(echo = TRUE)
 #                   ExpDes=experiment,
 #                   sampNameCol = 1)
 
-## ----do.findmain, eval=FALSE, include=TRUE-------------------------------
+## ----do.findmain, eval=FALSE, include=TRUE------------------------------------
 #  RC <- do.findmain(RC, mode = "positive", mzabs.error = 0.02, ppm.error = 10)
 
