@@ -1,9 +1,9 @@
-290564b1d7e824e5ea2e6d063b074f67 *ChangeLog
-24513c21a9b261429a590e2fc34a6416 *DESCRIPTION
+a3e1563a8d070acf3877bf32226dee14 *ChangeLog
+bb4c2677bbb7694f2d122d82652a87a6 *DESCRIPTION
 bf09ee77f35b46beb250cb1a6c53f215 *NAMESPACE
 f0aae0807c51e629efdaa8bbd2922d08 *R/RCQC.R
 1795c8ae3e5ccbef147bdc7dbb60c698 *R/annotate.R
-dd23568643209621aec994f7cc23e6aa *R/annotation.summary.R
+2f5187266b439cade1f8134f7dd092dd *R/annotation.summary.R
 29af949cfa1d6d009e7feb3043bec010 *R/assign.z.R
 d299d5457703c489b75182eeab3d58bd *R/change.annotation.R
 893499492a79048804b447a31c78b610 *R/cmpd.summary.R
@@ -22,10 +22,10 @@ f98f3ab395928adf46c7a14e3321e1b2 *R/import.msfinder.mssearch.R
 df8d4660963a5338ef6f47b8d9a8e165 *R/manual.annotation.template.R
 c88eafe827177544028e55b8604f8ee7 *R/mergeRCobjects.R
 acd20adef3eff8cfd7d66ed03a4f76ce *R/ramclustR.R
-c5257f2ab0927fd1827091ef134f691b *R/rc.calibrate.ri.R
+88334c2a3cba9d3410b239807d101a36 *R/rc.calibrate.ri.R
 fa608b22e6871cc73a0340ad49667b38 *R/rc.cmpd.cv.filter.R
 752bbcddaa786aca2fb3a5ad9310e6ac *R/rc.cmpd.get.classyfire.R
-6cc2d4d2fca7f22dbcfce9e39bbfbb66 *R/rc.cmpd.get.pubchem.R
+232760c42f3e188ae9dd85b9b35776d2 *R/rc.cmpd.get.pubchem.R
 7d44d24c02e2c56c89cf34b8d8af725a *R/rc.cmpd.get.smiles.inchi.R
 b62e79687c3a9b6904513d54fb34ad1a *R/rc.expand.sample.names.R
 18bc2685b71d5095a99bf66bc067b9b2 *R/rc.export.msp.rc.R
@@ -46,7 +46,7 @@ aec92b0eda641a16cc99b1537c969d51 *README.md
 db0d90d14bc747691c5721251d262380 *build/vignette.rds
 6c500da9412d9109337ce0a0fcc19ddf *inst/doc/RAMClustR.R
 672f5a79f18a473f3df2a9ac859ed4b2 *inst/doc/RAMClustR.Rmd
-0234c00bf3e46fdfe908b26b0aa47e25 *inst/doc/RAMClustR.html
+39dcac79b4511a61ae6840ddd2edd370 *inst/doc/RAMClustR.html
 9441bca4e0a92411f6dddf0feba4cb2b *inst/params/defparamsets.Rdata
 41211b8fbbe3864254daf7f848b07d96 *inst/params/greek.csv
 84705109d1d77647178f02aa9ce38716 *inst/params/params.csv
@@ -76,7 +76,7 @@ f6ac6a3cf8463236dfa799af8181e759 *man/mergeRCobjects.Rd
 bf6586b7f1a446c5b1aaaf8765fbb3ac *man/rc.calibrate.ri.Rd
 554e69c6ca92c6e38d3a7c699d1a3e13 *man/rc.cmpd.filter.cv.Rd
 f9db8e7b73d5f573155d2c45b5fb0551 *man/rc.cmpd.get.classyfire.Rd
-4bc3b5d893ebcd0d0c2c357df108218c *man/rc.cmpd.get.pubchem.Rd
+6e320e6236e5563af2d9f879bd976a32 *man/rc.cmpd.get.pubchem.Rd
 ffbaf5b8415b8fd04be8aab955373465 *man/rc.cmpd.get.smiles.inchi.Rd
 af50fddc84af82a017146b5115f0541c *man/rc.expand.sample.names.Rd
 207985330c39feb5a9c6d475db5b6070 *man/rc.export.msp.rc.Rd
