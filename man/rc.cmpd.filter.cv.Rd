@@ -4,14 +4,14 @@
 \alias{rc.cmpd.filter.cv}
 \title{rc.cmpd.filter.cv}
 \usage{
-rc.cmpd.filter.cv(ramclustObj = NULL, qc.tag = "QC", max.cv = 0.3)
+rc.cmpd.filter.cv(ramclustObj = NULL, qc.tag = "QC", max.cv = 0.5)
 }
 \arguments{
 \item{ramclustObj}{ramclustObj containing MSdata with optional MSMSdata (MSe, DIA, idMSMS)}
 
 \item{qc.tag}{character vector of length one or two.  If length is two, enter search string and factor name in $phenoData slot (i.e. c("QC", "sample.type"). If length one (i.e. "QC"), will search for this string in the 'sample.names' slot by default.}
 
-\item{max.cv}{numeric maximumn allowable cv for any feature.  default = 0.3}
+\item{max.cv}{numeric maximum allowable cv for any feature.  default = 0.3}
 }
 \value{
 ramclustR object with total extracted ion normalized data.
