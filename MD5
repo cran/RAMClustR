@@ -1,6 +1,6 @@
-3d8ceb880497aea14d5ef6d47d70004d *ChangeLog
-0997d76bec53a7a6c8fb9b3f3484ef51 *DESCRIPTION
-073f0e5042014374e9b333bf8990fd94 *NAMESPACE
+f5cf206233e5fac6dec9800441d7f4ad *ChangeLog
+4870de1f696812ee3f0e638f399aef58 *DESCRIPTION
+f7c12275e2a92b11a441c4f7ff3e8eab *NAMESPACE
 3dbc29cf4fd95e3eb2e50f94b92a4d26 *R/RCQC.R
 4fec7acd3ee43f9021dfd710f7b7f358 *R/annotate.R
 8747dcc73e30c8164ec911e7b437e61d *R/annotation.summary.R
@@ -9,7 +9,7 @@ c4c6e80998ed4951c284fb5986c780d0 *R/calculate.similarity.R
 6862a799cc82433cdc31632d42c08185 *R/change.annotation.R
 e7067aabb3ec45bb217519ff2301fcdb *R/cmpd.summary.R
 d7ca42636216266c052967aa1902c43a *R/defineExperiment.R
-b7aa300d99e4350dbcf66e861b875a75 *R/do.findmain.R
+7256da0ab5bc7cf8a12f7f5c2002457b *R/do.findmain.R
 010ec7bc1e3e244899eec9697949591c *R/export.msfinder.formulas.R
 7dece4db8177a9bad9ba37b6e9f109c7 *R/exportDataset.R
 57c5d207b04c131923163044f0828da5 *R/findfeature.R
@@ -25,7 +25,7 @@ b0d7b20cacb303146cfd4e3843ff0367 *R/import.adap.kdb.R
 5544175bd5fbab34e1824721c525b366 *R/import.sirius.R
 57c2d0dbb4437ae8929ade3e17b6e702 *R/manual.annotation.template.R
 f118ac99c1d0876c4a6cf61e31105927 *R/mergeRCobjects.R
-d2a5fdfce32030c8d95ee141a4e9e7b3 *R/ramclustR.R
+967c72c758e6f376228f334057eb7776 *R/ramclustR.R
 82b33ec772b70bdfcfa383a4420b5c79 *R/rc.calibrate.ri.R
 4dbb21e7b3fddaf12cb3f0699a2879cc *R/rc.cmpd.cv.filter.R
 d2282d73252ed605d059ca6b3cf6e4c7 *R/rc.cmpd.get.classyfire.R
@@ -42,7 +42,7 @@ af22ee771ec9c4f5a2291a306358fb1e *R/rc.feature.cv.filter.R
 7ead2066cd74ff4d1f737017136924ef *R/rc.feature.replace.na.R
 5cda58fd8b609ec50d35b43c770e341a *R/rc.get.xmcs.data.R
 bc2ff5edf3e0622effcd3530d3771982 *R/rc.qc.R
-464b8d6504a97abbf09aea7b7233690d *R/rc.ramclustr.R
+bc269e2420f1b7db37fc8e039db63b10 *R/rc.ramclustr.R
 5f79c77aad57c0cadc2e7aa42abcaeba *R/rc.remove.qc.R
 672b2de182eb47febf7c265c8f005eec *R/rc.restore.qc.samples.R
 50d34a065e524594ee967a1c144eebeb *R/write.methods.R
@@ -51,7 +51,8 @@ bc2ff5edf3e0622effcd3530d3771982 *R/rc.qc.R
 3006aedf6c672092f71e729ae30120a8 *build/vignette.rds
 8cd33789586a15a52345e170296ab09b *inst/doc/RAMClustR.R
 72af40e2dea390d5b05b2d2e1d63775c *inst/doc/RAMClustR.Rmd
-8565dd0923949de7ad48d875c04edc40 *inst/doc/RAMClustR.html
+0e4b9e79595e57a39331deef29902b35 *inst/doc/RAMClustR.html
+56438333e0fbc60c1dc8746e8ff162e1 *inst/extdata/peaks.csv
 9441bca4e0a92411f6dddf0feba4cb2b *inst/params/defparamsets.Rdata
 cd53800ece259e64eddcef240da0ed1a *inst/params/greek.csv
 90d8b70849428ed42fb15d61882c75f4 *inst/params/params.csv
@@ -80,7 +81,7 @@ f805a1e4f39ad48a7b4221f42e3627bf *man/import.msfinder.mssearch.Rd
 fd48556f7e0288064e05c3856c9fb02c *man/import.sirius.Rd
 c0534021e2c243ec8cf864c8ce94b6e6 *man/manual.annotation.template.Rd
 db0aef3c192a2f11e9e7d384470ebd39 *man/mergeRCobjects.Rd
-b707da1afe7b5fa55e547beafcbb3c9e *man/ramclustR.Rd
+0fa3d94d1b3a9e491ab04405c62390d9 *man/ramclustR.Rd
 0f5d303e8a5b6278208e63036dc6125c *man/rc.calibrate.ri.Rd
 21d5b9042eb5cb4288c196bf4b4b9e0b *man/rc.cmpd.filter.cv.Rd
 da86a0e7979294090943e0d786009399 *man/rc.cmpd.get.classyfire.Rd
@@ -102,7 +103,8 @@ aca86649a64f914e30c816e079720629 *man/rc.ramclustr.Rd
 a30df956f72e85697373855b7de3be81 *man/write.methods.Rd
 03f50a48336f944b39b8601254fe33c4 *man/write.msp.Rd
 f4bc1a6bd66792c2e7ed87f16ef02619 *tests/testthat.R
-5e7d4ab6343f9475a0f3377f88d5e7a2 *tests/testthat/test.R
+bcf76660e84bb7140d5381236411674c *tests/testthat/helper.R
+8b9f617e85a1abe73d091bfa3606f093 *tests/testthat/test.R
 e11dc0356ec67be9f4262834077e2ed7 *tests/testthat/testdata/output.msp
 56438333e0fbc60c1dc8746e8ff162e1 *tests/testthat/testdata/peaks.csv
 4913775114a00b6fa871ab11b971b61c *tests/testthat/testdata/ramclustObj.rds
