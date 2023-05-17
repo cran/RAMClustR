@@ -31,11 +31,15 @@ import.msfinder.formulas <- function (ramclustObj = NULL,
   
   home.dir <- getwd()
   
-  r <- grep("msfinder", names(ramclustObj))
+  r <- grep("msfinder.formula", names(ramclustObj))
   if (length(r) > 0) {
-    warning("removed previosly assigned MSFinder formulas and sructures", 
+    warning("removed previously assigned MSFinder formulas and structures", 
             "\n")
     ramclustObj <- ramclustObj[-r]
+    r <- grep("msfinder.structure", names(ramclustObj))
+    if(length(r)>0) {
+      ramclustObj <- ramclustObj[-r]
+    }
     rm(r)
   }
   if (is.null(mat.dir)) {
@@ -80,6 +84,9 @@ import.msfinder.formulas <- function (ramclustObj = NULL,
   
   ### retrieve parameter file from mat directory and parse to save with results.
   params <- list.files(mat.dir, pattern = "batchparam", full.names = TRUE)
+  if(length(params) == 0) {
+    params <- list.files(mat.dir, pattern = "MSFINDER.INI", full.names = TRUE)
+  }
   if(length(params) > 0) {
     mtime <- rep(NA, length(params))
     for(i in 1:length(mtime)) {
@@ -89,7 +96,7 @@ import.msfinder.formulas <- function (ramclustObj = NULL,
     params <- readLines(params)
     breaks <- which(nchar(params)==0)
     
-    ## forumla inference parameters
+    ## formula inference parameters
     st <- grep ("Formula finder parameters", params)+1
     end <- breaks[which(breaks > st)[1]]-1
     if(end <= st) {stop('parsing of parameter file has failed')}
@@ -215,7 +222,19 @@ import.msfinder.formulas <- function (ramclustObj = NULL,
     "formula inference, and tentative structure assignment,",
     "and results were imported into the RAMClustR object.")
   
-  
+  if(is.null(ramclustObj$msfinder.dbs)) {
+    dbs <- sapply(1:length(ramclustObj$ann), 
+                          FUN = function(x) {
+                            tmp <- paste(ramclustObj$msfinder.formula.details[[x]]$resourcenames, collapse = ",")
+                            tmp <- strsplit(tmp, ",", fixed = TRUE)
+                            tmp <- tmp[which(nchar(tmp)>0)]
+                            return(tmp)
+                          }
+    )
+    dbs <- unique(unlist(dbs))
+    dbs <- dbs[which(nchar(dbs)>0)]
+    ramclustObj$msfinder.dbs <- dbs
+  }
   
   return(ramclustObj)
 }

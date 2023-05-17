@@ -4,7 +4,12 @@
 \alias{import.msfinder.mssearch}
 \title{import.MSFinder.mssearch}
 \usage{
-import.msfinder.mssearch(ramclustObj = NULL, mat.dir = NULL, msp.dir = NULL)
+import.msfinder.mssearch(
+  ramclustObj = NULL,
+  mat.dir = NULL,
+  msp.dir = NULL,
+  dir.extension = ".mssearch"
+)
 }
 \arguments{
 \item{ramclustObj}{R object - the ramclustR object which was used to write the .mat or .msp files}
@@ -12,6 +17,8 @@ import.msfinder.mssearch(ramclustObj = NULL, mat.dir = NULL, msp.dir = NULL)
 \item{mat.dir}{optional path to .mat directory}
 
 \item{msp.dir}{optional path to .msp directory}
+
+\item{dir.extension}{optional directory name code specifying subset of results to use.  Useful if running MSFinder from the command line for both spectral searching and interpretation.}
 }
 \value{
 an updated ramclustR object, with new slots at $msfinder.mssearch.details and $msfinder.mssearch.scores

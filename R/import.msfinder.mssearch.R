@@ -4,6 +4,7 @@
 #' @param ramclustObj R object - the ramclustR object which was used to write the .mat or .msp files
 #' @param mat.dir optional path to .mat directory
 #' @param msp.dir optional path to .msp directory
+#' @param dir.extension optional directory name code specifying subset of results to use.  Useful if running MSFinder from the command line for both spectral searching and interpretation. 
 #' @details this function imports the output from the MSFinder program to annotate the ramclustR object
 #' @return an updated ramclustR object, with new slots at $msfinder.mssearch.details and $msfinder.mssearch.scores
 #' @references Broeckling CD, Afsar FA, Neumann S, Ben-Hur A, Prenni JE. RAMClust: a novel feature clustering method enables spectral-matching-based annotation for metabolomics data. Anal Chem. 2014 Jul 15;86(14):6812-7. doi: 10.1021/ac501530d.  Epub 2014 Jun 26. PubMed PMID: 24927477.
@@ -23,7 +24,8 @@
 import.msfinder.mssearch <- function (
   ramclustObj = NULL,
   mat.dir = NULL,
-  msp.dir = NULL
+  msp.dir = NULL,
+  dir.extension = ".mssearch"
 ) {
   
   if(is.null(ramclustObj)) {
@@ -67,11 +69,23 @@ import.msfinder.mssearch <- function (
       if(feedback == 1) {usemsp <- FALSE}
       if(feedback == 2) {usemat <- FALSE}
     }
-  }
+  } 
   
   mat.dir <- c(mat.dir, msp.dir)[c(usemat, usemsp)]
   
-  do<-list.dirs(mat.dir, recursive = FALSE, full.names = FALSE) 
+  do<-list.dirs(mat.dir, recursive = FALSE, full.names = FALSE)
+  cmpds <- do
+  if(!is.null(dir.extension)) {
+    keep <- grep(dir.extension, do)
+    do<-do[keep] 
+    cmpds <- cmpds[keep]
+    cmpds <- gsub(dir.extension, "", cmpds)
+  }
+  
+  if(length(cmpds) == 0) {
+    stop("  --  no spectral match results to return")
+  }
+
   
   ### retrieve parameter file from mat directory and parse to save with results.
   params <- list.files(mat.dir, pattern = "batchparam", full.names = TRUE)
@@ -97,7 +111,7 @@ import.msfinder.mssearch <- function (
   } 
   
   
-  ncmpd <- max(as.integer(gsub("C", "", do)))
+  ncmpd <- max(as.integer(gsub("C", "", cmpds)))
   
   tags<-c(
     "NAME: ",
@@ -136,8 +150,10 @@ import.msfinder.mssearch <- function (
   }
   
   for(i in 1:length(ramclustObj$cmpd)) {
-    if(!dir.exists(paste0(mat.dir, "/", ramclustObj$cmpd[i]))) next
-    setwd(paste0(mat.dir, "/", ramclustObj$cmpd[i]))
+    tar.dir <- paste0(mat.dir, "/", ramclustObj$cmpd[i])
+    if(!is.null(dir.extension)) tar.dir <- paste0(tar.dir, dir.extension)
+    if(!dir.exists(tar.dir)) next
+    setwd(tar.dir)
     if(!file.exists("Spectral DB search.sfd")) {next}
     tmp<-readLines("Spectral DB search.sfd")
     if(length(tmp) == 0) {next}
@@ -196,7 +212,7 @@ import.msfinder.mssearch <- function (
         out[,k]<-an
       }
     }
-    msfinder.mssearch.details[[ramclustObj$cmpd[i]]]$summary<-out
+    msfinder.mssearch.details[[i]]$summary<-out
     msfinder.mssearch.details[[ramclustObj$cmpd[i]]]$spectra<-spectra
   }
   

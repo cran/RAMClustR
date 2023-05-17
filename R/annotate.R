@@ -58,7 +58,7 @@ annotate<-function(ramclustObj = NULL,
   if(reset) {
     ramclustObj$msfinder.formula <- rep(NA, length(ramclustObj$cmpd))
     ramclustObj$formula <- rep(NA, length(ramclustObj$cmpd))
-    ramclustObj$annconf <- rep(4, length(ramclustObj$cmpd))
+    ramclustObj$annconf <- rep(5, length(ramclustObj$cmpd))
     ramclustObj$ann <- ramclustObj$cmpd
     ramclustObj$inchikey <- rep(NA, length(ramclustObj$cmpd))
     ramclustObj$inchi <- rep(NA, length(ramclustObj$cmpd))
@@ -76,9 +76,11 @@ annotate<-function(ramclustObj = NULL,
   }
   
   
-  suppressWarnings(
-    have.internet <- !as.logical(system(paste("ping -n 1", "www.google.com"), show.output.on.console = FALSE))
-  )
+  # suppressWarnings(
+  #   have.internet <- !as.logical(system(paste("ping -n 1", "www.google.com"), show.output.on.console = FALSE))
+  # )
+  have.internet <- curl::has_internet()
+  
   
   
   ## make sure taxonomy inchikeys are properly formatted
@@ -147,13 +149,13 @@ annotate<-function(ramclustObj = NULL,
     
     
     ##these items will be filled and added to the RC object
-    ramclustObj$rs.spec	<-as.list(rep("", max(ramclustObj$featclus)))
-    ramclustObj$rs.lib	<-rep("", max(ramclustObj$featclus))
-    ramclustObj$rs.specn	<-as.integer(rep(-1, max(ramclustObj$featclus)))
-    ramclustObj$rs.libn	<-as.integer(rep(-1, max(ramclustObj$featclus)))
-    ramclustObj$rs.mf	<-as.integer(rep(-1, max(ramclustObj$featclus)))
-    ramclustObj$rs.rmf	<-as.integer(rep(-1, max(ramclustObj$featclus)))
-    ramclustObj$rs.prob	<-as.numeric(rep(-1, max(ramclustObj$featclus)))
+    ramclustObj$rs.spec	<-as.list(rep("", length(ramclustObj$cmpd)))
+    ramclustObj$rs.lib	<-rep("", length(ramclustObj$cmpd))
+    ramclustObj$rs.specn	<-as.integer(rep(-1, length(ramclustObj$cmpd)))
+    ramclustObj$rs.libn	<-as.integer(rep(-1, length(ramclustObj$cmpd)))
+    ramclustObj$rs.mf	<-as.integer(rep(-1, length(ramclustObj$cmpd)))
+    ramclustObj$rs.rmf	<-as.integer(rep(-1, length(ramclustObj$cmpd)))
+    ramclustObj$rs.prob	<-as.numeric(rep(-1, length(ramclustObj$cmpd)))
     
     ##pull relevant line numbers for all spectra
     ##name line is first, so call that directly, range between name 1 and name 2 is the
@@ -162,11 +164,16 @@ annotate<-function(ramclustObj = NULL,
     ann<-which(regexpr('Annotation:', out)==1)
     origname<-which(regexpr('Original Name', out)==1)
     
+    ## see if names look like ADAP names
+    if(grepl("Original Name: #", name, fixed = TRUE)) {
+      out[origname] <- paste("Original Name:", ramclustObj$cmpd)
+    }
+    
     if(any((origname-name)!=2)) stop("please don't edit the output from ramsearch manually")
     if(any(ramclustObj$cmpd!=sub("Original Name: ", "", out[origname]))) {stop("compound names/order differ between ramclust object and ramsearch output")}  
     
     ##if length of name is not equal to length of ramclust Object 'cmpd' slot, something is wrong:
-    if(length(name)/as.integer(as.character(ramclustObj$ExpDes[[2]]["MSlevs",1]))!= length(ramclustObj$cmpd)) stop("number of spectra in ramsearch output different than number of compounds in ramclust object")
+    # if(length(name)/as.integer(as.character(ramclustObj$ExpDes[[2]]["MSlevs",1]))!= length(ramclustObj$cmpd)) stop("number of spectra in ramsearch output different than number of compounds in ramclust object")
     
     ##now pull relevant info our for each spectrum in output
     for(i in 1:length(ann)) {
@@ -175,9 +182,9 @@ annotate<-function(ramclustObj = NULL,
       ind<-as.numeric(sub("C", "", cname))
       mf<-ramclustObj$rs.mf[ind]
       newmf<-as.integer(sub("Match Factor / Dot Product: ", "", md[grep("Match Factor / Dot Product: ", md)]))
-      if(ramclustObj$cmpd[ind] != cname) {
-        stop(paste("something is amiss with compound ", i, ": the names do not match", sep=""))
-      }
+      # if(ramclustObj$cmpd[ind] != cname) {
+      #   stop(paste("something is amiss with compound ", i, ": the names do not match", sep=""))
+      # }
       
       ## note that inchikey returned from GOLM is the metabolite inchikey, not derivative inchikey
       ## inchikey for NIST? This incongruity may cause issues later
@@ -282,7 +289,7 @@ annotate<-function(ramclustObj = NULL,
           ramclustObj$inchikey[i]<-ramclustObj$msfinder.mssearch.details[[i]]$summary[1,"inchikey"]
           ramclustObj$smiles[i]<-ramclustObj$msfinder.mssearch.details[[i]]$summary[1,"smiles"]
           ramclustObj$ann[i]<-ramclustObj$msfinder.mssearch.details[[i]]$summary[1,"name"]
-          ramclustObj$annconf[i]<-"2a"
+          ramclustObj$annconf[i]<- 2
           ramclustObj$dbid[i]<-ramclustObj$msfinder.mssearch.details[[i]]$summary[1,"resources"]
           if(grepl("PUBCHEM", ramclustObj$dbid[i])) {
             cid <- unlist(strsplit(ramclustObj$dbid[i], ";"))
@@ -348,7 +355,7 @@ annotate<-function(ramclustObj = NULL,
           use.form <- which(ramclustObj$sirius$formula[[i]]$annotated)
           ramclustObj$formula[i] <- ramclustObj$sirius$formula[[i]]$molecularFormula[use.form]
           ramclustObj$ann[i]     <- ramclustObj$sirius$formula[[i]]$molecularFormula[use.form]
-          ramclustObj$annconf[i] <- "4"
+          ramclustObj$annconf[i] <- 4
           if(is.data.frame(ramclustObj$sirius$structure[[i]])) {  ## if structure is empty, do not annotate further.
             if(any(ramclustObj$sirius$structure[[i]]$annotated)) {   ## if structure is annotated, proceed
               st.use <- which(ramclustObj$sirius$structure[[i]]$annotated)
@@ -368,7 +375,7 @@ annotate<-function(ramclustObj = NULL,
               # } else {
               ramclustObj$ann[i] <- ramclustObj$sirius$structure[[i]][st.use, "name"]
               ramclustObj$inchikey[i] <- ramclustObj$sirius$structure[[i]][st.use, "InChIkey2D"]
-              ramclustObj$annconf[i] <- "2b"
+              ramclustObj$annconf[i] <- 3
               ramclustObj$smiles[i] <- ramclustObj$sirius$structure[[i]][st.use, "smiles"]
               ramclustObj$inchi[i] <- ramclustObj$sirius$structure[[i]][st.use, "InChI"]
               ramclustObj$formula[i] <- ramclustObj$sirius$structure[[i]][st.use, "molecularFormula"]
@@ -433,14 +440,14 @@ annotate<-function(ramclustObj = NULL,
       if(is.null(database.priority)) {
         if(!is.null(ramclustObj$msfinder.formula.dbs)) {
           if(length(ramclustObj$msfinder.formula.dbs)>0) {
-            database.priority <- ramclustObj$msfinder.formula.dbs
+            database.priority <- ramclustObj$msfinder.dbss
           } else {
             database.priority <- dbs
           }
         } else {
           database.priority <- dbs }
         
-        if (database.priority == "all") {
+        if (database.priority[1] == "all") {
           database.priority <- dbs
         }
       }
@@ -573,7 +580,7 @@ annotate<-function(ramclustObj = NULL,
       if(nrow(str.sum) == 0) next
       
       ramclustObj$ann[i] <- str.sum[1,"name"]
-      ramclustObj$annconf[i] <- 2
+      ramclustObj$annconf[i] <- 3
       ramclustObj$msfinder.formula[i] <- str.sum[1,"formula"]
       ramclustObj$msfinder.formula.score[i] <- str.sum[1,"formula.score"]
       ramclustObj$inchikey[i] <- str.sum[1,"inchikey"]
@@ -632,7 +639,7 @@ annotate<-function(ramclustObj = NULL,
     if(length(database.priority) == 0) {database.priority <- NULL}
     
     suppressWarnings(if(!is.null(database.priority)) {
-      if (database.priority == "all") {
+      if (database.priority[1] == "all") {
         database.priority <- dbs
       }
     })
@@ -720,7 +727,7 @@ annotate<-function(ramclustObj = NULL,
     if(is.null(ramclustObj$msfinder.formula)) stop("ramclustObj$msfinder.formula is null", '\n')
     if(any(!is.na(ramclustObj$msfinder.formula.details[[i]])) && (ramclustObj$cmpd[i] == ramclustObj$ann[i]) )  {
       ramclustObj$ann[i]<-ramclustObj$msfinder.formula[i]
-      ramclustObj$annconf[i] <- 3
+      ramclustObj$annconf[i] <- 4
       ramclustObj$dbid[i] <- ramclustObj$msfinder.formula.details[[i]][1,"resourcenames"]
     }
   }
@@ -805,6 +812,9 @@ annotate<-function(ramclustObj = NULL,
                                            paste(priority.dbs, collapse = " "), ".",
                                            sep = "")
   }
+  
+  search.dbs <- search.dbs[-which(search.dbs == "NA")]
+  ramclustObj$history$annotate3 <- "Annotation confidence was assigned using the Schymanski scale (Schymanksi 2014)"
   
   if(mssearch) {
     if(length(spec.formula.warnings) > 0) {

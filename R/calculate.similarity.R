@@ -1,12 +1,12 @@
 compute.start <- function(position, blocksize, numcols) {
-  return(min((1 + (position * blocksize)), numcols))
+  return(min((1 + ((position - 1) * blocksize)), numcols))
 }
 
 compute.stop <- function(position, blocksize, numcols) {
-  if ((position + 1) * blocksize > numcols) {
+  if ((position) * blocksize > numcols) {
     stop_pos <- numcols
   } else {
-    stop_pos <- (position + 1) * blocksize
+    stop_pos <- (position) * blocksize
   }
   return(stop_pos)
 }
@@ -25,14 +25,15 @@ calculate.similarity <- function(numcols,
   ########
   # establish some constants for downstream processing
   vlength <- (numcols * (numcols - 1)) / 2
-  nblocks <- floor(numcols / blocksize)
-  
+  nblocks <- ceiling(numcols / blocksize)
+
   cat(paste("Calculating ramclustR similarity using", sum((nblocks+1):1), "nblocks.\n"))
   
   ramclustObj <- vector(mode = "integer", length = vlength)
   block = 1
+  column <- NULL
   
-  for (row in 0:(nblocks)) {
+  for (row in 1:(nblocks)) {
     for (col in row:(nblocks)) {
       cat(block, " ")
       block <- block + 1
@@ -61,9 +62,16 @@ calculate.similarity <- function(numcols,
                                ncol = length(start_col:stop_col)
             )
           } else {
-            max_value <- pmax(cor(data1[, start_row:stop_row], data1[, start_col:stop_col], method = cor.method),
-                              cor(data1[, start_row:stop_row], data2[, start_col:stop_col], method = cor.method),
-                              cor(data2[, start_row:stop_row], data2[, start_col:stop_col], method = cor.method)
+            suppressWarnings(
+              max_value <- pmax(
+                cor(
+                  data1[, start_row:stop_row], data1[, start_col:stop_col], method = cor.method, use = "everything"),
+                cor(
+                  data1[, start_row:stop_row], data2[, start_col:stop_col], method = cor.method, use = "everything"),
+                cor(
+                  data2[, start_row:stop_row], data2[, start_col:stop_col], method = cor.method, use = "everything")
+                #, na.rm = TRUE
+              )
             )
             # correlational similarity
             corr_sim <- round(exp(-((1 - max_value) ^ 2) / (2 * (sr ^ 2))), digits = 20)
@@ -85,7 +93,7 @@ calculate.similarity <- function(numcols,
       }
       
       # merge computed similarity matrices to single matrix (extend rows)
-      if (exists("column") == FALSE) {
+      if (is.null(column)) {
         column <- sim_matrix
       } else {
         column <- rbind(column, sim_matrix)
@@ -98,13 +106,13 @@ calculate.similarity <- function(numcols,
     if (exists("startv") == FALSE)
       startv <- 1
     stopv <- startv + length(column) - 1
-    
+
     # assign obtained vector to result
     ramclustObj[startv:stopv] <- column
     startv <- stopv + 1
     
     # remove column to start next iteration with clean slate
-    rm(column)
+    column <- NULL
   }
   
   cat('\n RAMClust feature similarity matrix calculated and stored.\n')
