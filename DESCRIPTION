@@ -2,8 +2,8 @@ Package: RAMClustR
 Type: Package
 Title: Mass Spectrometry Metabolomics Feature Clustering and
         Interpretation
-Version: 1.3.0
-Date: 2023-05-17
+Version: 1.3.1
+Date: 2023-10-20
 Authors@R: c(
     person("Corey D.", "Broeckling", , "Corey.Broeckling@ColoState.EDU", role = "aut",
            comment = c(ORCID = "0000-0002-6158-827X")),
@@ -17,12 +17,11 @@ Authors@R: c(
     person("Zargham", "Ahmad", , "zargham.ahmad@recetox.muni.cz", role = "ctb")
   )
 Depends: R (>= 3.5.0)
-Imports: dynamicTreeCut, fastcluster, ff, httr, jsonlite,
-        preprocessCore, e1071, gplots, pcaMethods, stringr, utils,
-        webchem, ggplot2, methods
+Imports: dynamicTreeCut, fastcluster, httr, jsonlite, e1071, gplots,
+        pcaMethods, stringr, utils, webchem, ggplot2, methods
 Suggests: knitr, rmarkdown, xcms, testthat, patrick, MSnbase,
-        InterpretMSSpectrum, BiocManager, xml2, stringi, readxl, curl,
-        rentrez
+        InterpretMSSpectrum (>= 1.3.8), BiocManager, xml2, stringi,
+        readxl, curl, rentrez
 License: GPL (>= 2)
 Description: A feature clustering algorithm for non-targeted mass spectrometric metabolomics data. This method is compatible with gas and liquid chromatography coupled mass spectrometry, including indiscriminant tandem mass spectrometry data <DOI: 10.1021/ac501530d>. 
 URL: https://github.com/cbroeckl/RAMClustR
@@ -31,7 +30,7 @@ biocViews: MassSpectrometry, Metabolomics
 RoxygenNote: 7.2.3
 VignetteBuilder: knitr
 NeedsCompilation: no
-Packaged: 2023-05-17 07:26:39 UTC; hechth
+Packaged: 2023-10-20 13:56:38 UTC; hechth
 Author: Corey D. Broeckling [aut] (<https://orcid.org/0000-0002-6158-827X>),
   Fayyaz Afsar [aut],
   Steffen Neumann [aut],
@@ -42,4 +41,4 @@ Author: Corey D. Broeckling [aut] (<https://orcid.org/0000-0002-6158-827X>),
   Zargham Ahmad [ctb]
 Maintainer: Helge Hecht <helge.hecht@recetox.muni.cz>
 Repository: CRAN
-Date/Publication: 2023-05-17 08:00:02 UTC
+Date/Publication: 2023-10-20 15:20:08 UTC
